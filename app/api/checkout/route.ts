@@ -18,6 +18,7 @@ const fail = (error: string, code: string, status: number) =>
     { status, headers: { "Cache-Control": "no-store" } },
   );
 export async function POST(request: NextRequest) {
+  let stage = "request-validation";
   try {
     const raw = await readLimitedBody(request, 20000);
     let data;
@@ -66,6 +67,7 @@ export async function POST(request: NextRequest) {
         400,
       );
     }
+    stage = "database-rate-limit";
     const db = sql(),
       now = Date.now(),
       ownerHash = hash(owner);
@@ -83,6 +85,7 @@ export async function POST(request: NextRequest) {
         );
     }
     await db`DELETE FROM checkout_rate_limits WHERE expires_at<${now - 60000}`;
+    stage = "database-create-order";
     const result = await createPendingOrder(
         ownerHash,
         data.idempotencyKey,
@@ -155,6 +158,7 @@ export async function POST(request: NextRequest) {
         config.shipping.label,
       );
     }
+    stage = "stripe-checkout-session";
     const session = order.stripe_session_id
       ? await stripeRequest<StripeSession>(
           `/checkout/sessions/${encodeURIComponent(order.stripe_session_id)}`,
@@ -173,12 +177,25 @@ export async function POST(request: NextRequest) {
     const url = new URL(session.url);
     if (url.protocol !== "https:" || url.hostname !== "checkout.stripe.com")
       throw new PaymentProviderError();
+    stage = "database-save-checkout";
     await db`UPDATE orders SET stripe_session_id=${session.id},updated_at=${Date.now()} WHERE id=${order.id} AND (stripe_session_id IS NULL OR stripe_session_id=${session.id})`;
     return NextResponse.json(
       { url: session.url, orderId: order.id, sessionId: session.id },
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch (error) {
+    const code =
+      error && typeof error === "object" && "code" in error
+        ? error.code
+        : undefined;
+    console.error("[Evoke checkout] Request failed", {
+      stage,
+      code:
+        typeof code === "string" && /^[A-Z0-9_]{1,64}$/.test(code)
+          ? code
+          : "UNKNOWN",
+      type: error instanceof Error ? error.constructor.name : "UnknownError",
+    });
     if (error instanceof BodyLimitError)
       return fail("Request too large.", "INVALID_REQUEST", 413);
     if (error instanceof PaymentProviderError)
