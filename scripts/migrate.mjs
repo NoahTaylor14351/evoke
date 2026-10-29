@@ -2,7 +2,8 @@ import postgres from "postgres";
 import { createHash } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
-import { loadEnvConfig } from "@next/env";
+import nextEnv from "@next/env";
+const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 if (!process.env.DATABASE_URL)
   throw Error("Set DATABASE_URL before migrating.");
