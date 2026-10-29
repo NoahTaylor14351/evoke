@@ -1,0 +1,256 @@
+:root {
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --feedback-fast: 170ms;
+  --feedback-soft: 280ms;
+}
+
+.button {
+  transition:
+    background-color var(--feedback-fast) ease,
+    color var(--feedback-fast) ease,
+    border-color var(--feedback-fast) ease,
+    box-shadow var(--feedback-soft) var(--ease-out),
+    transform 130ms var(--ease-out);
+}
+.button:focus-visible {
+  box-shadow: 0 0 0 5px #c99beb16;
+}
+.button:not(:disabled):active {
+  transform: translateY(1px);
+  transition-duration: 90ms;
+}
+.button:disabled,
+.button:disabled svg {
+  transform: none;
+  box-shadow: none;
+}
+.button svg,
+.text-link svg,
+.round-arrow svg,
+.mobile-menu a svg {
+  transition: transform var(--feedback-soft) var(--ease-out);
+}
+.button:not(:disabled):hover svg {
+  transform: translate(2px, -2px);
+}
+.text-link {
+  transition: color var(--feedback-fast) ease;
+}
+.text-link:hover {
+  gap: 20px;
+}
+.text-link:hover svg,
+.text-link:focus-visible svg {
+  transform: translate(2px, -2px);
+}
+.desktop-nav a {
+  transition: color var(--feedback-fast) ease;
+}
+.desktop-nav a::after {
+  transition: transform var(--feedback-soft) var(--ease-out);
+}
+.desktop-nav a:hover::after,
+.desktop-nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+.mobile-menu a {
+  transition:
+    color var(--feedback-fast) ease,
+    border-color var(--feedback-soft) ease;
+}
+.mobile-menu a:hover,
+.mobile-menu a:focus-visible {
+  color: var(--purple-light);
+  border-bottom-color: #c99beb55;
+}
+.mobile-menu a:hover svg,
+.mobile-menu a:focus-visible svg {
+  transform: translate(2px, -2px);
+}
+.menu-toggle {
+  border-radius: 7px;
+  transition:
+    background-color var(--feedback-fast) ease,
+    color var(--feedback-fast) ease;
+}
+.menu-toggle:hover,
+.menu-toggle[aria-expanded="true"] {
+  background-color: #ffffff09;
+  color: var(--purple-light);
+}
+
+.feature-card,
+.social-card,
+.product-image {
+  transition:
+    border-color var(--feedback-soft) ease,
+    box-shadow var(--feedback-soft) ease;
+}
+.feature-card:focus-visible,
+.social-card:focus-visible,
+.product-card:focus-visible {
+  outline-offset: 5px;
+}
+.feature-card:focus-visible {
+  border-color: #c99beb70;
+}
+.feature-card:hover .round-arrow,
+.feature-card:focus-visible .round-arrow {
+  transform: none;
+  background: #e1d0ee;
+  color: #171019;
+}
+.feature-card:hover .round-arrow svg,
+.feature-card:focus-visible .round-arrow svg {
+  transform: translate(2px, -2px);
+}
+.feature-card:active .round-arrow svg {
+  transform: translate(1px, -1px);
+}
+.product-card:focus-visible .product-view {
+  opacity: 1;
+  transform: none;
+}
+.gallery-thumbnails button,
+.product-detail .color-swatch,
+.product-detail select {
+  transition:
+    border-color var(--feedback-fast) ease,
+    background-color var(--feedback-fast) ease,
+    box-shadow var(--feedback-soft) ease;
+}
+.product-detail .color-swatch:focus-visible,
+.gallery-thumbnails button:focus-visible,
+.product-detail select:focus-visible {
+  outline: 2px solid var(--purple-light);
+  outline-offset: 3px;
+}
+.product-detail .gallery-image > img {
+  animation: gallery-arrive 260ms ease-out;
+}
+.image-dialog[open] {
+  animation: dialog-arrive 230ms var(--ease-out);
+}
+
+.faq-list summary,
+.product-disclosures summary {
+  transition: color var(--feedback-fast) ease;
+}
+.faq-list summary:hover,
+.product-disclosures summary:hover,
+.faq-list summary:focus-visible,
+.product-disclosures summary:focus-visible {
+  color: var(--purple-light);
+}
+.faq-list summary svg,
+.product-disclosures summary svg {
+  transition:
+    color var(--feedback-fast) ease,
+    transform var(--feedback-soft) var(--ease-out);
+}
+@supports (interpolate-size: allow-keywords) {
+  @supports selector(details::details-content) {
+    .faq-list details,
+    .product-disclosures details {
+      interpolate-size: allow-keywords;
+    }
+    .faq-list details::details-content,
+    .product-disclosures details::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition:
+        block-size var(--feedback-soft) var(--ease-out),
+        content-visibility var(--feedback-soft) allow-discrete;
+    }
+    .faq-list details[open]::details-content,
+    .product-disclosures details[open]::details-content {
+      block-size: auto;
+    }
+  }
+}
+
+.route-transition {
+  animation: page-arrive 520ms var(--ease-out) both;
+}
+.section-enter {
+  animation: section-arrive 520ms var(--ease-out) var(--reveal-delay, 0ms)
+    backwards;
+}
+.section-enter .product-card {
+  animation: content-arrive 470ms var(--ease-out) backwards;
+}
+.section-enter .product-card:nth-child(2) {
+  animation-delay: 65ms;
+}
+.section-enter .product-card:nth-child(3) {
+  animation-delay: 130ms;
+}
+@keyframes page-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes section-arrive {
+  from {
+    opacity: 0.76;
+    translate: 0 12px;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+  }
+}
+@keyframes content-arrive {
+  from {
+    opacity: 0.8;
+    translate: 0 7px;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+  }
+}
+@keyframes gallery-arrive {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes dialog-arrive {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+  }
+}
+@media (max-width: 700px) {
+  .section-heading .text-link:hover {
+    gap: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-transition,
+  .section-enter,
+  .section-enter .product-card,
+  .product-detail .gallery-image > img,
+  .image-dialog[open] {
+    animation: none !important;
+    translate: none !important;
+  }
+  .button svg,
+  .text-link svg,
+  .round-arrow svg,
+  .mobile-menu a svg {
+    transform: none !important;
+  }
+}

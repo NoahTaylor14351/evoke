@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Evoke website: client setup, publishing and day-to-day management guide.">
+  <title>Evoke — Master Setup &amp; Owner Guide</title>
+  <style>
+    :root{color-scheme:light;--ink:#201b29;--muted:#676170;--line:#ded8e5;--accent:#704594}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:25px}body{margin:0;background:#f4f1f7;color:var(--ink);font:15px/1.75 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--accent);text-underline-offset:3px}header{background:#16101e;color:#fff;padding:65px max(25px,calc((100vw - 1160px)/2));border-bottom:5px solid #b892d2}header .label{font-size:12px;letter-spacing:.18em;color:#cdb2e0}h1{font-size:clamp(34px,5vw,62px);line-height:1.08;letter-spacing:-.05em;margin:20px 0}header p{max-width:720px;color:#cec4d6;margin:0}.layout{display:grid;grid-template-columns:220px minmax(0,1fr);max-width:1220px;margin:auto;gap:48px;padding:45px 30px 85px}nav{align-self:start;position:sticky;top:25px;font-size:12px}nav strong{display:block;margin-bottom:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}nav a{display:block;padding:7px 0;color:#51415e;text-decoration:none}nav a:hover{text-decoration:underline}main{min-width:0}section{padding:8px 0 35px;margin-bottom:25px;border-bottom:1px solid var(--line)}h2{font-size:29px;line-height:1.2;letter-spacing:-.035em;margin:15px 0 22px}h3{font-size:18px;margin:28px 0 10px}h4{font-size:15px;margin:22px 0 8px}p{margin:12px 0}ul,ol{padding-left:23px}li{margin:8px 0}code{font:13px/1.6 ui-monospace,Consolas,monospace;background:#eae4ef;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere}pre{padding:20px 22px;background:#21172c;color:#eee7f5;border-radius:8px;overflow:auto;font-size:12px;line-height:1.8}pre code{background:none;color:inherit;padding:0;overflow-wrap:normal}.notice{padding:17px 21px;margin:20px 0;border:1px solid #d5c6e1;border-left:4px solid #a77dc4;border-radius:7px;background:#fff}.notice strong{color:#603b7d}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:13px;margin:18px 0}th,td{padding:12px 13px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}th{background:#e8e1ee;font-weight:650}td:first-child{font-weight:550}td code{font-size:12px}.checklist{list-style:none;padding:0}.checklist li::before{content:"□";color:var(--accent);margin-right:11px}.small{font-size:12px;color:var(--muted)}.tag{display:inline-block;background:#e9dfef;border-radius:30px;padding:3px 11px;font-size:11px;font-weight:650;color:#59396f}.subtle{color:var(--muted)}footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+    @media(max-width:800px){.layout{grid-template-columns:1fr;padding:25px 20px 50px;gap:20px}nav{position:static;display:grid;grid-template-columns:1fr 1fr;gap:0 20px}nav strong{grid-column:1/-1}header{padding:40px 22px}h2{font-size:25px}table{min-width:580px}}
+    @media print{@page{margin:18mm}body{background:white;font-size:10pt}header{background:white;color:#201b29;padding:0 0 18px;border-bottom:2px solid #704594}header p,header .label{color:#676170}h1{font-size:30pt}.layout{display:block;padding:20px 0}nav{display:none}section{margin-bottom:15px;padding-bottom:20px}h2,h3,h4{break-after:avoid}tr,pre,.notice{break-inside:avoid}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f0edf3;color:#201b29;border:1px solid #ded8e5}a{color:#201b29}table{min-width:0}footer{padding:12px 0}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="label">EVOKE / CLIENT HANDBOOK</div>
+</header>
+<div class="layout">
+<nav aria-label="Guide contents">
+  <strong>Start here</strong>
+  <a href="#overview">1. What you have</a>
+  <a href="#requirements">2. Accounts &amp; decisions</a>
+  <a href="#local">3. Open &amp; build locally</a>
+  <a href="#hosting">4. Upload, hosting &amp; domain</a>
+  <a href="#settings">5. Website settings</a>
+  <a href="#database">6. Set up the database</a>
+  <a href="#stripe">7. Set up Stripe</a>
+  <a href="#email">8. Set up email</a>
+  <a href="#staff">9. Staff access &amp; orders</a>
+  <a href="#changes">10. Make changes</a>
+  <a href="#launch">11. Before launch</a>
+  <a href="#maintenance">12. Updates &amp; backups</a>
+  <a href="#help">13. Troubleshooting</a>
+</nav>
+<main>
+<section id="overview">
+  <span class="tag">OWNER OVERVIEW</span>
+  <h2>1. What you have</h2>
+  <p>The website includes Home, About, the Shop, a persistent shopping bag, personalised jersey previews, checkout return pages and policy/contact pages. Roster buttons open Evoke’s team page on Fortnite Tracker. Local roster pages, News, Events and public customer login are not included.</p>
+  <p>Both jersey colours cost <strong>$59.99 USD</strong>. Confirmed sizes are <strong>XS, S, M, L, XL and XXL</strong>. Customers enter the name to be printed on the back. Different names remain separate bag items.</p>
+  <p>The site is built with <strong>Next.js, React, TypeScript and CSS</strong>. Public content is edited in project files. A PostgreSQL database stores private order records, Stripe takes payments, and Resend sends optional confirmation emails.</p>
+  <div class="notice"><strong>Setup status</strong><p>The website and payment integration are implemented. Your own hosting, domain, database, Stripe account, delivery settings and email account still need connecting. Live account payments, database migrations and email delivery have not been verified against your accounts. Complete the launch checks in section 11 before accepting real orders.</p></div>
+  <p>This file is the master guide. Open it in any browser; use the browser’s Print command to print it or save a PDF. Keep it with your private project files, outside <code>public/</code>.</p>
+</section>
+<section id="requirements">
+  <h2>2. Accounts &amp; decisions to prepare</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>What you need</th><th>What it does</th><th>Who should own it</th></tr></thead>
+    <tbody>
+      <tr><td>Domain and DNS access</td><td>Your address, such as <code>example.com</code>, and the settings connecting it to the host.</td><td>Evoke</td></tr>
+      <tr><td>Next.js or Node.js hosting</td><td>Runs both the pages and the private payment/staff server.</td><td>Evoke</td></tr>
+      <tr><td>Managed PostgreSQL database</td><td>Keeps orders, customer shipping details and payment reconciliation records.</td><td>Evoke</td></tr>
+      <tr><td>Stripe account</td><td>Accepts payments and manages payouts, receipts and refunds.</td><td>Evoke’s legal merchant</td></tr>
+      <tr><td>Resend account and sending domain</td><td>Sends personalised order confirmation emails.</td><td>Evoke</td></tr>
+      <tr><td>Support mailbox</td><td>Receives customer enquiries, for example <code>support@example.com</code>.</td><td>Evoke</td></tr>
+    </tbody>
+  </table></div>
+  <p>Before opening paid pre-orders, decide which countries you ship to, the delivery charge, the tax treatment, the production/dispatch disclosure, the support email and the returns procedure. Update the policy pages with those real details. Do not insert guessed delivery dates.</p>
+
+</section>
+<section id="local">
+  <h2>3. Open &amp; build the website locally</h2>
+  <p>Install a maintained <strong>Node.js 22 or 24 LTS</strong> release, including npm. The current project has been built with Node.js 24. Extract the client ZIP into a normal folder, then open a terminal in the folder containing <code>package.json</code>.</p>
+  <h3>First installation</h3>
+  <pre><code>npm ci
+npm run dev</code></pre>
+  <p>Open <a href="http://127.0.0.1:3000/">http://127.0.0.1:3000/</a>. Keep the terminal running. Press <code>Ctrl+C</code> to stop. Development mode refreshes most changes automatically.</p>
+  <p>The public pages and shopping bag work without payment credentials. Checkout shows <strong>Payment Configuration Not Setup</strong> until the required payment settings have been supplied. The bag stays intact.</p>
+  <h3>Check a production build</h3>
+  <p>Stop the development server first, then run:</p>
+  <pre><code>npm run build
+npm start</code></pre>
+  <p>This is the version to review before publication. <code>npm run typecheck</code> is an additional check for TypeScript errors. After a code, content or image change, rebuild and restart the production version.</p>
+  <p><code>npm ci</code> recreates <code>node_modules/</code> from the supplied lock file. <code>npm run build</code> creates <code>.next/</code>. These generated folders are deliberately excluded from the client ZIP.</p>
+</section>
+<section id="hosting">
+  <h2>4. Upload, hosting &amp; connecting a domain</h2>
+  <div class="notice"><strong>A domain is the address; hosting runs the website.</strong><p>This project needs a Next.js/Node.js server. Uploading only images or HTML to a basic <code>public_html</code> folder will not provide payments, order storage or staff access. A static-only host is unsuitable for the complete application.</p></div>
+  <h3>What files should be uploaded?</h3>
+  <p>Upload the clean project source to the host’s private application/project directory, or connect a private source repository. Include:</p>
+  <pre><code>app/                    Pages, styling and server endpoints
+src/                    Components, content and commerce logic
+public/                 Website artwork, video and local font
+migrations/             Database upgrade files
+scripts/                Database migration and password tools
+package.json
+package-lock.json
+next.config.ts
+next-env.d.ts
+tsconfig.json
+postcss.config.mjs
+.npmrc
+.gitignore</code></pre>
+  <p>Keep <code>MASTER_SETUP.html</code> with your private project files. Do not put secrets, database exports, fulfilment CSVs or this guide in <code>public/</code>. Everything under <code>public/</code> is downloadable by visitors.</p>
+  <p>Do not upload your local <code>node_modules/</code>, <code>.next/</code>, <code>*.tsbuildinfo</code> or local secret files as public website files. The host installs dependencies and builds its own release.</p>
+  <h3>Option A — hosting that supports Next.js</h3>
+  <ol>
+    <li>Create a Next.js application on the host and upload/connect the source folder containing <code>package.json</code>.</li>
+    <li>Select a supported Node.js 22 or 24 runtime. Set the install command to <code>npm ci</code> and build command to <code>npm run build</code>. Keep the host’s Next.js output setting; do not change it to a static export.</li>
+    <li>Add the settings from section 5 in the host’s environment-variable/secret settings, before building.</li>
+    <li>Apply the database migrations once against the intended database, through the host’s private shell or an authorised machine.</li>
+    <li>If the host manages Next.js itself, use its normal server adapter. If a start command is required, use <code>npm run start:host</code>. It listens on the host-provided <code>PORT</code>, or port 3000 by default.</li>
+    <li>Add the domain in the host’s dashboard, then copy its exact DNS records into your domain provider’s DNS dashboard. The host determines the required A/CNAME/verification values; there is no universal IP address to copy from this guide.</li>
+    <li>Enable HTTPS. Choose one main address, with or without <code>www</code>, and redirect the other to it. Set both site URL settings to that main address, rebuild and restart.</li>
+  </ol>
+  <h3>Option B — run your own server</h3>
+  <p>Upload the same source into a private application folder. With Node.js installed and environment settings supplied, run:</p>
+  <pre><code>npm ci
+npm run db:migrate
+npm run build
+npm run start:host</code></pre>
+  <p>Run the website through your server’s service/process manager so it survives a terminal closing and restarts after a reboot. Use an HTTPS reverse proxy to route your domain to the application’s internal port. Keep the database private and use its required encrypted connection settings. Forward the original host/protocol correctly and avoid caching staff/payment responses.</p>
+  <p>Use the same canonical HTTPS domain for the shop, staff desk and webhook. A preview address and the live domain need separate matching settings. See <a href="https://nextjs.org/docs/app/getting-started/deploying">the Next.js deployment guide</a> for supported hosting modes.</p>
+</section>
+<section id="settings">
+  <h2>5. Website settings</h2>
+  <p>Settings are called <strong>environment variables</strong>. On your computer, create a file named <code>.env.local</code> beside <code>package.json</code> and paste the template below. Ensure Windows has not added <code>.txt</code> to the filename. On the live host, enter the same names and values in its private environment settings.</p>
+  <p>Blank values below are places for your own credentials or decisions. They do not enable payments. Never place a secret key in a page, JSON content file or browser script.</p>
+  <pre><code>SITE_URL=http://127.0.0.1:3000
+NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3000
+DATABASE_URL=
+
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+
+JERSEY_SIZES=XS,S,M,L,XL,XXL
+SHIPPING_COUNTRIES=
+STRIPE_SHIPPING_RATE_ID=
+SHIPPING_FLAT_RATE_CENTS=
+FREE_SHIPPING=false
+SHIPPING_LABEL=
+STRIPE_AUTOMATIC_TAX=false
+STRIPE_TAX_BEHAVIOR=exclusive
+PREORDER_NOTICE=
+BLACK_JERSEY_AVAILABLE=true
+WHITE_JERSEY_AVAILABLE=true
+
+RESEND_API_KEY=
+ORDER_EMAIL_FROM=
+CONTACT_EMAIL=
+
+ADMIN_PASSWORD_HASH=
+ADMIN_SESSION_SECRET=</code></pre>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Setting</th><th>How to fill it</th></tr></thead>
+    <tbody>
+      <tr><td><code>SITE_URL</code> and <code>NEXT_PUBLIC_SITE_URL</code></td><td>Set both to the exact site origin, for example <code>https://example.com</code>, with no page path. Use the local values above only on your computer. <code>SITE_URL</code> takes precedence on the server.</td></tr>
+      <tr><td><code>DATABASE_URL</code></td><td>Private PostgreSQL connection string supplied by the database provider, including its required TLS settings. See section 6.</td></tr>
+      <tr><td><code>STRIPE_SECRET_KEY</code></td><td>Your account’s secret API key beginning <code>sk_test_</code> for sandbox use or <code>sk_live_</code> for real payments. See section 7.</td></tr>
+      <tr><td><code>STRIPE_WEBHOOK_SECRET</code></td><td>The signing secret for this exact webhook, beginning <code>whsec_</code>. It is separate from the API key.</td></tr>
+      <tr><td><code>NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY</code></td><td>Optional for this hosted Checkout integration. Leave blank, or use the matching <code>pk_test_</code>/<code>pk_live_</code> key. Never paste a secret key here.</td></tr>
+      <tr><td><code>JERSEY_SIZES</code></td><td>Confirmed size list. Blank/unset falls back to XS through XXL. Only change after confirming available sizes.</td></tr>
+      <tr><td><code>SHIPPING_COUNTRIES</code></td><td>Comma-separated two-letter country codes. For example, <code>GB,US</code> only if shipping to both is approved. At least one supported destination is required.</td></tr>
+      <tr><td>Shipping rate settings</td><td>Choose one: a Stripe rate ID, a flat rate in USD cents, or <code>FREE_SHIPPING=true</code>. A valid Stripe rate ID takes precedence, then free shipping, then the flat rate. A flat value of <code>500</code> means $5.00 USD; it is an illustration, not an approved charge.</td></tr>
+      <tr><td><code>SHIPPING_LABEL</code></td><td>Optional customer-facing delivery label. It does not set a price or promise a delivery date.</td></tr>
+      <tr><td><code>STRIPE_AUTOMATIC_TAX</code></td><td>Use <code>true</code> only after configuring Stripe Tax and the merchant’s registrations. <code>false</code> disables automatic tax calculation; it does not declare sales tax-exempt.</td></tr>
+      <tr><td><code>STRIPE_TAX_BEHAVIOR</code></td><td><code>exclusive</code> adds applicable tax; <code>inclusive</code> treats it as included. Confirm the merchant’s pricing approach before changing.</td></tr>
+      <tr><td><code>PREORDER_NOTICE</code></td><td>Your approved 20–1,200-character payment, production and dispatch disclosure. Put the complete text on one line. It appears in the purchase flow and Stripe Checkout.</td></tr>
+      <tr><td>Colour availability</td><td><code>BLACK_JERSEY_AVAILABLE</code> and <code>WHITE_JERSEY_AVAILABLE</code> default to <code>true</code>. Setting one to <code>false</code> blocks server checkout for that colour; it does not automatically remove its catalogue card.</td></tr>
+      <tr><td>Email and staff settings</td><td>See sections 8 and 9. <code>CONTACT_EMAIL</code> is the public support address, separate from the sending service.</td></tr>
+    </tbody>
+  </table></div>
+  <p>In a local environment file, wrap text containing spaces or a <code>#</code> in double quotes, for example <code>ORDER_EMAIL_FROM="Evoke &lt;orders@example.com&gt;"</code>. In a host dashboard enter the value itself unless the host requests file-style quoting.</p>
+  <p>Restart after server-setting changes. Rebuild when changing public settings, content used by built pages, the contact email, or the site domain. The contact page reads <code>CONTACT_EMAIL</code> at build time. Public values beginning <code>NEXT_PUBLIC_</code> can also be embedded during the build; see <a href="https://nextjs.org/docs/app/guides/environment-variables">Next.js environment-variable guidance</a>.</p>
+</section>
+<section id="database">
+  <h2>6. Set up the order database</h2>
+  <ol>
+    <li>Create an empty PostgreSQL database with your chosen provider, preferably close to the website’s hosting region.</li>
+    <li>Copy its application connection string into <code>DATABASE_URL</code>. Use the provider’s required TLS/encryption settings. If it offers several pooler modes, use a Node.js-compatible direct or session-pooled connection.</li>
+    <li>Check the website host can reach the database. Allow only the necessary host/network access.</li>
+    <li>From the project folder with those settings loaded, run <code>npm run db:migrate</code>.</li>
+    <li>Confirm the command reports that migrations are up to date, then build/start the website.</li>
+  </ol>
+  <p>The migration command loads a local <code>.env.local</code> automatically, or uses environment variables supplied by the host. It applies the numbered SQL files in order and records their checksums. Keep <code>migrations/</code> and <code>scripts/migrate.mjs</code>; they are required operational files.</p>
+  <p>For an existing store, back up the database before upgrades. Do not edit a migration that has already run. For future database changes, add a new numbered migration. Do not replace a live order database with an empty development database.</p>
+  <p>Orders include the printed name, colour, size, quantity, prices, Stripe references, contact/shipping details and fulfilment status. Public About content remains in a local JSON file.</p>
+</section>
+<section id="stripe">
+  <h2>7. Set up Stripe payments</h2>
+  <h3>Connect the merchant account</h3>
+  <ol>
+    <li>Create/sign in to Evoke’s Stripe account and complete its business, bank/payout, identity and customer-support settings.</li>
+    <li>Start in a Stripe sandbox. Put that account’s <code>sk_test_</code> key into <code>STRIPE_SECRET_KEY</code>. Keep sandbox and live credentials separate. The current application accepts account secret keys in <code>sk_test_</code>/<code>sk_live_</code> format. Restricted and organisation keys are not supported by this version.</li>
+    <li>Configure the approved shipping destinations and one rate method from section 5. If using a Stripe shipping rate ID, ensure its currency is USD and it belongs to the same sandbox/live environment as the key.</li>
+    <li>Add the approved <code>PREORDER_NOTICE</code> and configure tax settings. The public policy pages must describe the same commercial terms.</li>
+    <li>Create the webhook below, then rebuild/restart after updating the environment.</li>
+  </ol>
+  <p>The server creates the jersey line items and prices. You do not need to manually create Stripe product or price IDs for the current catalogue. Hosted Stripe Checkout collects payment and shipping details; no card numbers are stored by this website.</p>
+  <h3>Create the payment webhook</h3>
+  <p>A webhook is Stripe’s private notification to the website that a payment or refund has changed. It must work even if the customer closes their browser.</p>
+  <ol>
+    <li>In Stripe, open Workbench/Webhooks and create an event destination for your account. Dashboard wording may vary.</li>
+    <li>Choose <strong>Snapshot</strong> payloads for this implementation and a webhook endpoint destination.</li>
+    <li>Enter <code>https://example.com/api/stripe/webhook</code>, replacing the example domain with your real canonical domain.</li>
+    <li>Select these exact event types:</li>
+  </ol>
+  <pre><code>checkout.session.completed
+checkout.session.async_payment_succeeded
+checkout.session.async_payment_failed
+checkout.session.expired
+charge.refunded</code></pre>
+  <p>Copy this endpoint’s signing secret into <code>STRIPE_WEBHOOK_SECRET</code>. A sandbox endpoint and live endpoint have different secrets. The endpoint must be publicly reachable over HTTPS, without a staff login or redirect in front of it. See <a href="https://docs.stripe.com/webhooks">Stripe’s webhook instructions</a>.</p>
+  <h3>Check the complete order journey</h3>
+  <p>Using the sandbox and Stripe’s official sandbox payment details, purchase each colour with different printed names. Confirm the names, sizes and quantities in the bag, in hosted Checkout and in the staff order desk. Check shipping/tax amounts and confirmation email delivery. Check cancellation, a declined payment and a refund. Redelivering a payment event must not duplicate the order.</p>
+  <p>For local checks, install the official Stripe CLI, sign in to the correct sandbox and run <code>stripe listen --forward-to http://127.0.0.1:3000/api/stripe/webhook</code>. Use the listener’s signing secret locally. Complete an actual sandbox checkout through the Evoke shop; an unrelated synthetic event has no matching Evoke order.</p>
+  <h3>Switch on real payments</h3>
+  <p>After successful sandbox checks, set the real <code>sk_live_</code> key, matching optional publishable key, live webhook secret and live shipping rate if applicable. Rebuild/restart and confirm the live webhook is active. See <a href="https://docs.stripe.com/keys">Stripe’s key guide</a>. No separate hidden checkout-enable switch is required.</p>
+  <p>Issue refunds from the Stripe Dashboard. The signed refund event updates the website’s order record. A staff fulfilment change does not create a refund. Review partially refunded orders before manufacturing.</p>
+</section>
+<section id="email">
+  <h2>8. Set up confirmation emails and support</h2>
+  <ol>
+    <li>Create a Resend account owned by Evoke. Add the domain or dedicated sending subdomain you will use.</li>
+    <li>In the domain’s DNS dashboard, add the exact verification/DKIM/SPF records Resend supplies. Do not replace existing mailbox MX records with unrelated values. Wait until Resend reports the sending domain as verified.</li>
+    <li>Create a sending API key and store it privately as <code>RESEND_API_KEY</code>.</li>
+    <li>Set <code>ORDER_EMAIL_FROM</code> to an address on the verified domain, for example <code>Evoke &lt;orders@example.com&gt;</code>. Use your actual domain.</li>
+    <li>Set <code>CONTACT_EMAIL</code> to your working customer-support mailbox. Creating a sending identity does not create a mailbox for reading replies; arrange that separately with your email provider.</li>
+    <li>Restart/redeploy, complete a sandbox order and check the provider log and recipient inbox/spam folder.</li>
+  </ol>
+  <p>The confirmation contains the order reference, jersey colour, size, printed name, quantity, amount paid and pre-order disclosure. The sending address is also the normal reply destination unless your provider supplies different handling. Use a monitored mailbox if customers should reply there.</p>
+  <p>Without a configured email provider, a paid order remains recorded. The website does not pretend an email was sent. Staff can inspect delivery status and retry after correcting the settings. <code>sent</code> means the provider accepted the message, not guaranteed inbox arrival.</p>
+  <p>Automatic delivery attempts are bounded. A staff retry uses the same per-order provider idempotency key; after an ambiguous delivery, check provider records before retrying, particularly after 24 hours. Stripe’s payment receipt is a separate account setting.</p>
+  <p>Official help: <a href="https://resend.com/docs/dashboard/domains/introduction">verify a Resend domain</a> and <a href="https://resend.com/docs/dashboard/api-keys/introduction">manage Resend API keys</a>.</p>
+</section>
+<section id="staff">
+  <h2>9. Staff access &amp; managing orders</h2>
+  <h3>Create the private staff password</h3>
+  <p>In an interactive terminal in the project folder, run:</p>
+  <pre><code>node scripts/hash-admin-password.mjs</code></pre>
+  <p>Enter a strong password of at least 16 characters. Input is hidden. The tool prints an <code>ADMIN_PASSWORD_HASH=...</code> line. Save only the value after <code>=</code> in the host’s <code>ADMIN_PASSWORD_HASH</code> setting. Store the actual password in Evoke’s password manager for authorised staff.</p>
+  <p>Generate a separate signing secret:</p>
+  <pre><code>node -e "process.stdout.write(require('node:crypto').randomBytes(48).toString('hex'))"</code></pre>
+  <p>Save the output as <code>ADMIN_SESSION_SECRET</code>. Keep it separate from the password. A configured database and exact site URL are also required for staff access. Restart after setting these values.</p>
+  <h3>Open the order desk</h3>
+  <p>Visit <code>https://example.com/admin/orders</code> on your real domain and sign in. There is no public navigation link. Sessions last up to eight hours; staff should sign out when finished.</p>
+  <div class="notice"><strong>How staff accounts work</strong><p>The current version uses one shared staff password. It does not provide named accounts, invitations, individual permissions or a password-reset email. Only trusted fulfilment staff should receive access.</p></div>
+  <h3>Everyday order workflow</h3>
+  <ol>
+    <li>Open paid pre-orders and expand an order to review the printed name, colour, size, quantity, payment reference and shipping details.</li>
+    <li>Export the fulfilment CSV when preparing a production batch. It contains private customer information; give it only to the intended fulfilment/manufacturing team.</li>
+    <li>Check the exact spelling and approve the supplier’s physical print proof. The live preview records the name but does not define centimetre measurements.</li>
+    <li>Update the order from <strong>Paid — Pre-order</strong> to <strong>In production</strong>, then <strong>Dispatched</strong> and <strong>Fulfilled</strong>, as appropriate. Add the carrier/tracking reference when available.</li>
+    <li>If the confirmation email failed, correct the email setup and use <strong>Retry confirmation email</strong>.</li>
+  </ol>
+  <p>The CSV includes paid and partially refunded order lines and excludes fully refunded ones. Review partial refunds before production. For more than 10,000 order lines, use your database provider’s export tools. Fulfilment edits are logged. Updating fulfilment does not send a separate dispatch/tracking email in the current version.</p>
+  <h3>Change or revoke access</h3>
+  <p>Run the password tool again to set a new hash. Rotate <code>ADMIN_SESSION_SECRET</code> as well to invalidate all existing sessions, then restart. There is no email recovery route; authorised hosting access is needed to change these settings.</p>
+</section>
+<section id="changes">
+  <h2>10. Make changes to the website</h2>
+  <p>The staff desk manages orders. Website text and artwork changes are made in the source files, then rebuilt and deployed. Make a backup before editing.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>What you want to change</th><th>File or folder</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Roster destination</td><td><code>src/config/socials.ts</code></td><td>Set <code>trackerUrl</code> to the Fortnite Tracker team link. All roster buttons use this destination; no local player list is maintained.</td></tr>
+      <tr><td>About copy and founding label</td><td><code>src/content/about.json</code></td><td><code>paragraphs</code>, fallback <code>intro</code> and <code>established</code>. The current label is EST 2026.</td></tr>
+      <tr><td>About heading/layout</td><td><code>app/about/page.tsx</code> and <code>app/about/about.css</code></td><td>Controls the split hero and brand artwork.</td></tr>
+      <tr><td>Homepage text and FAQ answers</td><td><code>app/page.tsx</code></td><td>FAQ questions/answers are near the top of the file.</td></tr>
+      <tr><td>Hero copy/video behaviour</td><td><code>src/components/home/hero.tsx</code> and <code>app/home.css</code></td><td>Desktop fits the full video. Mobile uses a full hero background. Home replays the video; reduced-motion preferences are respected.</td></tr>
+      <tr><td>Roster/Shop panels and directory</td><td><code>src/components/home/identity-panels.tsx</code>, <code>organization.tsx</code>, <code>app/identity.css</code>, <code>app/organization.css</code></td><td>The Shop artwork must retain safe space around both garments when cropped to wide and mobile shapes.</td></tr>
+      <tr><td>Social links and Tracker destination</td><td><code>src/config/socials.ts</code></td><td>Update the actual official URLs here.</td></tr>
+      <tr><td>Prices, sizes and product titles</td><td><code>src/config/commerce.ts</code></td><td>Prices use integer USD cents: <code>5999</code> is $59.99. Env size overrides must match. Keep the currency as USD. Changing currency also requires updating checkout, totals and email formatting.</td></tr>
+      <tr><td>Printed-name rules</td><td><code>src/config/personalization.ts</code></td><td>Currently 16 characters, uppercase letters/numbers, spaces, full stops, hyphens and underscores. Changing print limits also needs preview/supplier review.</td></tr>
+      <tr><td>Navigation/footer</td><td><code>src/components/layout/header.tsx</code> and <code>footer.tsx</code></td><td>Home, Shop and About, plus an external Roster link; News and Events are removed.</td></tr>
+      <tr><td>Main styling</td><td><code>app/ui.css</code>, <code>home.css</code>, <code>editorial.css</code>, <code>interactions.css</code>, route CSS files</td><td><code>app/globals.css</code> imports shared styles. Shop styling also lives in <code>app/shop/shop.css</code>.</td></tr>
+      <tr><td>Policies/contact</td><td><code>app/shipping/page.tsx</code>, <code>returns/page.tsx</code>, <code>terms/page.tsx</code>, <code>privacy/page.tsx</code>, <code>contact/page.tsx</code></td><td>Replace pending merchant-specific wording with real approved operating details.</td></tr>
+      <tr><td>Search/social previews</td><td><code>app/layout.tsx</code>, <code>app/sitemap.ts</code>, <code>app/robots.ts</code></td><td>Page titles/descriptions also appear in individual page files. Set SITE_URL before building for the live domain.</td></tr>
+      <tr><td>Email wording</td><td><code>src/lib/commerce/email.ts</code></td><td>Includes plain-text and HTML versions; keep them consistent.</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Artwork to keep</h3>
+  <p>The cleaned <code>public/assets/evoke/</code> folder contains only the site’s active logo/icons, sharing image, hero video/poster, Shop banner and jersey images. Keep both <code>jersey-*-back.webp</code> and <code>jersey-*-back-blank.webp</code> files: the former are product photos, the latter are essential to the live name preview.</p>
+  <p>Keep <code>public/fonts/RacingSansOne-Regular.ttf</code> and its <code>RacingSansOne-OFL.txt</code> licence. The licence is required third-party font documentation. Do not remove font licences or substitute jersey artwork without checking the lettering alignment.</p>
+  <h3>Publish an edit</h3>
+  <pre><code>npm run build</code></pre>
+  <p>If the build succeeds, deploy that source/release and restart the host. Local development refreshes changes; a live production build does not automatically pick up content-file edits. Before changing product IDs, slugs or the database structure, check how the change affects existing orders.</p>
+</section>
+<section id="launch">
+  <h2>11. Before accepting real orders</h2>
+  <ul class="checklist">
+    <li>The canonical domain opens over HTTPS and the alternative www/non-www address redirects correctly.</li>
+    <li>Both site URL settings use that exact main domain.</li>
+    <li>Database migrations are applied; backups are enabled and a restore procedure is available.</li>
+    <li>Stripe sandbox orders have completed for both colours and different printed names.</li>
+    <li>The staff desk contains the correct immutable names, sizes, quantities, addresses and paid totals.</li>
+    <li>Webhook delivery/retry, payment failure, cancellation and refund behaviour have been checked.</li>
+    <li>The approved shipping destinations, charges, production/dispatch disclosure and applicable tax treatment are configured.</li>
+    <li>Shipping, returns, terms, privacy and contact pages contain the real merchant details.</li>
+    <li>The sending domain is verified, the confirmation email arrives, and customers have a working support mailbox.</li>
+    <li>Staff can sign in, inspect/export orders, update fulfilment and sign out.</li>
+    <li>Phone and desktop navigation, video, product previews, name editing and the bag have been reviewed.</li>
+    <li>Live Stripe keys, live webhook secret and live shipping rate have replaced sandbox values in production.</li>
+    <li>The production build succeeds and the server remains running after the deployment terminal closes.</li>
+  </ul>
+  <p>Your project ZIP contains the website source and this guide, without preview screenshots or local dependencies. Complete the live service checks above before accepting orders.</p>
+</section>
+<section id="maintenance">
+  <h2>12. Updates, backups &amp; ownership</h2>
+  <p>Keep a private backup/version history of the source and artwork. Enable database backups with your provider and occasionally verify that a restore works. Rebuilding the website does not back up customer orders.</p>
+  <p>Keep secrets in the host’s secret settings and Evoke’s password manager. Share fulfilment exports only with authorised staff/suppliers, and follow your customer-data retention policy. Rotate credentials if access is lost or a staff member leaves.</p>
+  <p>Before updating dependencies or changing the database, take a backup, review the change on a separate preview, build it and check the order journey. Keep <code>package-lock.json</code>; it records the dependency versions. Avoid updating packages on the live server without a reviewed release.</p>
+  <p>Hosting, domain renewal, database, Stripe and email-service accounts should all be recoverable by Evoke. Record the account owners and renewal/billing arrangements in your private business records, not in a public website folder.</p>
+</section>
+<section id="help">
+  <h2>13. Troubleshooting</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>What you see</th><th>What to check</th></tr></thead>
+    <tbody>
+      <tr><td>Payment Configuration Not Setup</td><td>Check the Stripe secret/signing secret, database URL, canonical site URL, shipping countries/rate and pre-order notice. Check key format and matching sandbox/live modes. Restart after changes. The bag should remain intact.</td></tr>
+      <tr><td>Configured checkout still fails</td><td>Review private host and Stripe request logs. Readiness validates settings but cannot prove the keys authenticate or the database is reachable/migrated. Do not paste secrets into customer-facing errors.</td></tr>
+      <tr><td>Payment made, order still pending</td><td>Inspect Stripe webhook delivery for this exact endpoint/environment, signing secret and event types. Check database access. Do not mark an order paid merely because a customer visited the success page.</td></tr>
+      <tr><td>Payment not yet verified</td><td>The confirmation page needs the original browser’s owner cookie and a matching verified session. Try the original browser and check again. Staff can independently inspect the order and Stripe payment record.</td></tr>
+      <tr><td>Staff administration is not configured</td><td>Check the generated scrypt password hash, independent session secret, database URL, exact site URL and applied migrations.</td></tr>
+      <tr><td>Sign-in/update rejected, invalid origin</td><td>Use the exact configured canonical domain. Do not mix localhost and 127.0.0.1, or www and non-www. Check HTTPS/proxy configuration.</td></tr>
+      <tr><td>Too many staff login attempts</td><td>The desk shares a 20-attempt budget per ten-minute window. Wait for the next window and check the password rather than repeatedly retrying.</td></tr>
+      <tr><td>Confirmation email missing</td><td>Check Resend key, verified sending domain, sender address, provider delivery log and spam folder. Correct the setup before using the staff retry button. A paid order is retained even if email fails.</td></tr>
+      <tr><td>A text/image edit has not appeared</td><td>Rebuild and redeploy; restart production. Verify you changed the active source, then refresh the browser. Public environment settings may need rebuilding too.</td></tr>
+      <tr><td>Build fails after JSON editing</td><td>Read the terminal’s filename/field error. Check double quotes, commas, required fields and valid group names. Restore the last working copy if necessary.</td></tr>
+      <tr><td>The domain works but checkout/staff does not</td><td>Confirm the host runs the full Node.js application, not only public assets or a static export, and can connect to PostgreSQL.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+</main>
+</div>
+<footer>EVOKE · MASTER SETUP &amp; OWNER GUIDE · 29 OCTOBER 2026</footer>
+</body>
+</html>

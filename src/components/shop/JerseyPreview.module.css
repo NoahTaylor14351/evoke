@@ -1,0 +1,22 @@
+@font-face {
+  font-family: "Evoke Athletic Preview";
+  src: url("/fonts/RacingSansOne-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+.preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.lettering {
+  font-family: "Evoke Athletic Preview", "Arial Black", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  paint-order: stroke fill;
+}
